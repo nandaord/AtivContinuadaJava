@@ -10,6 +10,30 @@ package br.com.cesarschool.poo.titulos.entidades;
  * Deve ter um m�todo p�blico double calcularPrecoTransacao(double montante): o pre�o
  * da transa��o � montante vezes (1 - taxaJuros/100.0).
  */
-public class TituloDivida {
+public class TituloDivida extends Ativo {
+
+    private double taxaJuros;
+
+    public TituloDivida(int identificador, String nome, LocalDate dataDeValidade, double taxaJuros){
+
+        super(identificador,nome,dataDeValidade);
+        this.taxaJuros = taxaJuros;
+
+    }
+
+    //SET E GET
+    public void setTaxaJuros(double taxaJuros){
+        this.taxaJuros = taxaJuros;
+    }
+
+    public double getTaxaJuros(){
+        return taxaJuros;
+    }
+
+
+    //MÉTODOS ADICIONAIS
+    public double calcularPrecoTransacao(double montante){
+        return montante*(1 - taxaJuros/100.0);
+    }
 
 }
