@@ -1,6 +1,11 @@
 package br.com.cesarschool.poo.titulos.repositorios;
 
 import br.com.cesarschool.poo.titulos.entidades.Acao;
+import java.io.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.time.format.DateTimeFormatter;	
 /*
  * Deve gravar em e ler de um arquivo texto chamado Acao.txt os dados dos objetos do tipo
  * Acao. Seguem abaixo exemplos de linhas (identificador, nome, dataValidade, valorUnitario)
@@ -25,9 +30,24 @@ import br.com.cesarschool.poo.titulos.entidades.Acao;
  * objeto. Caso o identificador n�o seja encontrado no arquivo, retornar null.
  */
 public class RepositorioAcao {
-    public boolean incluir(Acao acao) {
-        return false;
-    }
+	private static final String ARQUIVO_ACOES = "Acao.txt";
+	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+	public boolean incluir(Acao acao) {
+	    if (buscar(acao.getIdentificador()) != null) {
+	        return false; // Identificador já existe
+	    }
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARQUIVO_ACOES, true))) {
+	        String linha = acao.getIdentificador() + ";" + acao.getNome() + ";" + acao.getDataDeValidade() + ";" + acao.getValorUnitario();
+	        writer.write(linha);
+	        writer.newLine();
+	        return true;
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
     public boolean alterar(Acao acao) {
         return false;
     }
