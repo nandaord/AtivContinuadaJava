@@ -1,4 +1,3 @@
-teste
 package br.com.cesarschool.poo.titulos.repositorios;
 
 import br.com.cesarschool.poo.titulos.entidades.Acao;
@@ -49,13 +48,94 @@ public class RepositorioAcao {
 	    }
 	}
 
-    public boolean alterar(Acao acao) {
-        return false;
+	public boolean alterar(Acao acao) {
+        List<String> linhas = new ArrayList<>();
+        boolean encontrado = false;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO_ACOES))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                String[] partes = linha.split(";");
+                int id = Integer.parseInt(partes[0]);
+                if (id == acao.getIdentificador()) {
+                    linha = acao.getIdentificador() + ";" + acao.getNome() + ";" + acao.getDataDeValidade() + ";" + acao.getValorUnitario();
+                    encontrado = true;
+                }
+                linhas.add(linha);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        if (encontrado) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARQUIVO_ACOES))) {
+                for (String linha : linhas) {
+                    writer.write(linha);
+                    writer.newLine();
+                }
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
-    public boolean excluir(int identificador) {
-        return false;
+	
+	
+	public boolean excluir(int identificador) {
+        List<String> linhas = new ArrayList<>();
+        boolean encontrado = false;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO_ACOES))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                String[] partes = linha.split(";");
+                int id = Integer.parseInt(partes[0]);
+                if (id == identificador) {
+                    encontrado = true; // Não adicionamos esta linha
+                } else {
+                    linhas.add(linha); // Adicionamos as outras linhas
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        if (encontrado) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARQUIVO_ACOES))) {
+                for (String linha : linhas) {
+                    writer.write(linha);
+                    writer.newLine();
+                }
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
+    
     public Acao buscar(int identificador) {
-        return null;
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO_ACOES))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                String[] partes = linha.split(";");
+                int id = Integer.parseInt(partes[0]);
+                if (id == identificador) {
+                    String nome = partes[1];
+                    double valorUnitario = Double.parseDouble(partes[3]);
+                    return new Acao(id, nome, dataValidade, valorUnitario);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null; 
     }
 }
