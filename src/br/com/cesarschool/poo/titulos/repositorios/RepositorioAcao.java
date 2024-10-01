@@ -129,8 +129,9 @@ public class RepositorioAcao {
                 int id = Integer.parseInt(partes[0]);
                 if (id == identificador) {
                     String nome = partes[1];
+                    LocalDate dataDeValidade = LocalDate.parse(partes[2]);
                     double valorUnitario = Double.parseDouble(partes[3]);
-                    return new Acao(id, nome, dataValidade, valorUnitario);
+                    return new Acao(id, nome, dataDeValidade, valorUnitario);
                 }
             }
         } catch (IOException e) {
