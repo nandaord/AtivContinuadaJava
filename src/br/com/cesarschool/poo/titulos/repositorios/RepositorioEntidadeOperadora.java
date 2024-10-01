@@ -32,7 +32,7 @@ import java.util.List;
  * objeto. Caso o identificador n�o seja encontrado no arquivo, retornar null.
  */
 
-public class RepositorioAcao {
+public class RepositorioEntidadeOperadora {
 
     private static final String FILE_NAME = "Acao.txt";
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");

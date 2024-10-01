@@ -12,7 +12,7 @@ import java.time.LocalDate;
  */
 public class Ativo {
 
-    private int identificador;
+    private final int identificador;
     private String nome;
     private LocalDate dataDeValidade = LocalDate.now();
 
