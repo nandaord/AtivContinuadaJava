@@ -121,4 +121,65 @@ public class RepositorioTransacao {
         }
         return transacoesEncontradas.toArray(new Transacao[0]);
     }
+
+    public Transacao[] buscarPorEntidadeDebito(int identificadorEntidadeDebito) {
+        File arquivo = new File("Transacao.txt");
+        List<Transacao> transacoesEncontradas = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
+            String linha;
+
+            while ((linha = br.readLine()) != null) {
+                String[] dados = linha.split(";");
+
+                int idDebitoExistente = Integer.parseInt(dados[5]);
+
+                if (idDebitoExistente == identificadorEntidadeDebito) {
+                    EntidadeOperadora entidadeCredito = new EntidadeOperadora(
+                            Integer.parseInt(dados[0]),
+                            dados[1],
+                            Boolean.parseBoolean(dados[2])
+                    );
+
+                    EntidadeOperadora entidadeDebito = new EntidadeOperadora(
+                            Integer.parseInt(dados[5]),
+                            dados[6],
+                            Boolean.parseBoolean(dados[7])
+                    );
+
+                    Acao acao = null;
+
+                    if (!dados[10].equals("null")) {
+                        acao = new Acao(
+                                Integer.parseInt(dados[10]),
+                                dados[11],
+                                LocalDate.parse(dados[12]),
+                                Double.parseDouble(dados[13])
+                        );
+                    }
+
+                    TituloDivida tituloDivida = null;
+
+                    if (!dados[14].equals("null")) {
+                        tituloDivida = new TituloDivida(
+                                Integer.parseInt(dados[14]),
+                                dados[15],
+                                LocalDate.parse(dados[16]),
+                                Double.parseDouble(dados[17])
+                        );
+                    }
+
+                    double valorOperacao = Double.parseDouble(dados[18]);
+                    LocalDateTime dataHoraOperacao = LocalDateTime.parse(dados[19]);
+
+                    Transacao transacao = new Transacao(entidadeCredito, entidadeDebito, acao, tituloDivida, valorOperacao, dataHoraOperacao);
+                    transacoesEncontradas.add(transacao);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new Transacao[0];
+        }
+        return transacoesEncontradas.toArray(new Transacao[0]);
+    }
 }

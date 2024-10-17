@@ -55,15 +55,15 @@ import java.time.LocalDate;
  */
 
 
-public class MediatorEntdadeOperadora {
+public class MediatorEntidadeOperadora {
 
-    private static MediatorEntdadeOperadora instancia;
+    private static MediatorEntidadeOperadora instancia;
     private final RepositorioEntidadeOperadora repositorioEntidadeOperadora = new RepositorioEntidadeOperadora();
 
-    private MediatorEntdadeOperadora() {
+    private MediatorEntidadeOperadora() {
     }
 
-    public static MediatorEntdadeOperadora getInstance() {
+    public static MediatorEntidadeOperadora getInstance() {
         if (instancia == null) {
             instancia = new MediatorEntidadeOperadora();
         }
@@ -71,7 +71,7 @@ public class MediatorEntdadeOperadora {
     }
 
 
-    private String validar(EntidadeOperadora entidade) {
+    public String validar(EntidadeOperadora entidade) {
         if (entidade.getIdentificador() <= 100 || entidade.getIdentificador() >= 1000000) {
             return "Identificador deve estar entre 100 e 1000000";
         }
@@ -82,7 +82,7 @@ public class MediatorEntdadeOperadora {
             return "Nome deve ter entre 10 e 100 caracteres";
         }
         LocalDate dataValidade = LocalDate.now().plusDays(180);
-        if (entidade.getAutorizadoAcao() <= 0) {
+        if (!entidade.getAutorizadoAcao()) {
             return "Valor autorizado de ação deve ser maior que zero";
         }
         return null;

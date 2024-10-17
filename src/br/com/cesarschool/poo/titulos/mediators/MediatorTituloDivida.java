@@ -1,5 +1,11 @@
 package br.com.cesarschool.poo.titulos.mediators;
 
+import br.com.cesarschool.poo.titulos.entidades.TituloDivida;
+import br.com.cesarschool.poo.titulos.repositorios.RepositorioTituloDivida;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 /*
  * Deve ser um singleton.
  *
@@ -52,5 +58,101 @@ package br.com.cesarschool.poo.titulos.mediators;
  * que ele retornar. Se o identificador for inválido, retornar null.
  */
 public class MediatorTituloDivida {
+    private static MediatorTituloDivida instance;
+
+    RepositorioTituloDivida repositorioTituloDivida = new RepositorioTituloDivida();
+
+    private MediatorTituloDivida() {
+    }
+
+    public static MediatorTituloDivida getInstance() {
+        if (instance == null) {
+            instance = new MediatorTituloDivida();
+        }
+        return instance;
+    }
+
+    private String validar(TituloDivida titulo) {
+        String nome = titulo.getNome();
+        long diasDiferenca = ChronoUnit.DAYS.between(LocalDate.now(), titulo.getDataDeValidade());
+
+        if (titulo.getIdentificador() <= 0 || titulo.getIdentificador() > 10000) {
+            return "Identificador deve estar entre 1 e 99999.";
+        }
+        if (nome == null) {
+            return "Nome deve estar preenchido.";
+        }
+        if (nome.trim().length() < 10 || nome.trim().length() > 100) {
+            return "Nome deve ter entre 10 e 100 caracteres.";
+        }
+        if (diasDiferenca < 180) {
+            return "Data de validade deve ter pelo menos 180 dias na frente da data atual.";
+        }
+        if (titulo.getTaxaJuros() < 0) {
+            return "Taxa de juros deve ser maior ou igual a zero.";
+        }
+
+        return null;
+    }
+
+    public String incluir(TituloDivida titulo) {
+
+        String validacao = validar(titulo);
+
+        if (validacao == null) {
+            if (repositorioTituloDivida.incluir(titulo)) {
+                return null;
+            } else {
+                return "Título já existente";
+            }
+        } else {
+            return validacao;
+        }
+
+    }
+
+    public String alterar(TituloDivida titulo) {
+
+        String validacao = validar(titulo);
+
+        if (validacao == null) {
+            if (repositorioTituloDivida.alterar(titulo)) {
+                return null;
+            } else {
+                return "Título inexistente";
+            }
+        } else {
+            return validacao;
+        }
+    }
+
+    public String excluir(int identificador) {
+
+        if (identificador <= 0 || identificador > 100000) {
+            return "Título inexistente";
+        }
+
+        TituloDivida busca = repositorioTituloDivida.buscar(identificador);
+
+        if (busca != null) {
+            if (repositorioTituloDivida.excluir(identificador)) {
+                return null;
+            } else {
+                return "Título inexistente";
+            }
+        } else {
+            return "Título inexistente";
+        }
+    }
+
+    public TituloDivida buscar(int identificador){
+
+        if (identificador <= 0 || identificador > 100000) {
+            return null;
+        } else {
+            return repositorioTituloDivida.buscar(identificador);
+        }
+
+    }
 
 }
