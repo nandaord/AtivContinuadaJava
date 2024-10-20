@@ -14,23 +14,23 @@ import br.com.cesarschool.poo.titulos.entidades.Acao;
 import br.com.cesarschool.poo.titulos.mediators.MediatorAcao;
 
 public class TelaBuscarAcao {
-    private JFrame frame;
+    private JFrame tela;
     private JTextField textoId;
     private JTextField textoNome;
     private JTextField textoValor;
     private JTextField textoDataValidade;
-    private JButton btnBuscar;
+    private JButton botBuscar;
     private MediatorAcao mediatorAcao = MediatorAcao.getInstancia();
 
     public void setVisible(boolean b) {
-        frame.setVisible(b);
+        tela.setVisible(b);
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
                 TelaBuscarAcao window = new TelaBuscarAcao();
-                window.frame.setVisible(true);
+                window.tela.setVisible(true);
             } catch (Exception e) {
                 Logger.getLogger(TelaBuscarAcao.class.getName()).log(Level.SEVERE, null, e);
             }
@@ -41,84 +41,90 @@ public class TelaBuscarAcao {
         initialize();
     }
 
-    private void createFrame() {
-        frame = new JFrame("Buscar Ação");
-        frame.setBounds(100, 100, 556, 370);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(null);
+    private void criarTela() {
+        tela = new JFrame("Buscar Ação");
+        tela.setBounds(100, 100, 556, 370);
+        tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        tela.getContentPane().setLayout(null);
     }
 
     private void initialize() {
-        createFrame();
+        criarTela();
 
-        int yPos = 40;
-        int xLabel = 41;
-        int xTextField = 183;
+        int yPos = 40; // Posição inicial y
+        int xLabel = 41; // Posição x para Labels
+        int xTextField = 183; // Posição x para TextFields
 
+        // COMPONENTE 1
         JLabel labelId = new JLabel("ID atual");
         labelId.setBounds(xLabel, yPos, 121, 20);
-        frame.getContentPane().add(labelId);
+        tela.getContentPane().add(labelId);
         textoId = new JTextField();
         textoId.setBounds(xTextField, yPos, 122, 26);
-        frame.getContentPane().add(textoId);
+        tela.getContentPane().add(textoId);
         yPos += 36;
 
         JLabel labelNome = new JLabel("Novo Nome");
         labelNome.setBounds(xLabel, yPos, 121, 20);
-        frame.getContentPane().add(labelNome);
+        tela.getContentPane().add(labelNome);
         textoNome = new JTextField();
         textoNome.setBounds(xTextField, yPos, 122, 26);
         textoNome.setEnabled(false);
         textoNome.setEditable(false);
-        frame.getContentPane().add(textoNome);
+        tela.getContentPane().add(textoNome);
         yPos += 36;
 
+        // COMPONENTE 3
         JLabel labelValor = new JLabel("Novo Valor");
         labelValor.setBounds(xLabel, yPos, 121, 20);
-        frame.getContentPane().add(labelValor);
+        tela.getContentPane().add(labelValor);
         textoValor = new JTextField();
         textoValor.setBounds(xTextField, yPos, 122, 26);
         textoValor.setEnabled(false);
         textoValor.setEditable(false);
-        frame.getContentPane().add(textoValor);
+        tela.getContentPane().add(textoValor);
         yPos += 36;
 
+        // COMPONENTE 4
         JLabel labelDataValidade = new JLabel("Data de Validade");
         labelDataValidade.setBounds(xLabel, yPos, 121, 20);
-        frame.getContentPane().add(labelDataValidade);
+        tela.getContentPane().add(labelDataValidade);
         textoDataValidade = new JTextField();
         textoDataValidade.setBounds(xTextField, yPos, 122, 26);
         textoDataValidade.setEnabled(false);
         textoDataValidade.setEditable(false);
-        frame.getContentPane().add(textoDataValidade);
+        tela.getContentPane().add(textoDataValidade);
         yPos += 36;
 
-        btnBuscar = new JButton("Buscar");
-        btnBuscar.setBounds(xLabel, yPos, 90, 30);
-        frame.getContentPane().add(btnBuscar);
+        // COMPONENTE 5
+        botBuscar = new JButton("Buscar");
+        botBuscar.setBounds(xLabel, yPos, 90, 30);
+        tela.getContentPane().add(botBuscar);
 
-        JButton btnVoltar = new JButton("Voltar");
-        btnVoltar.setBounds(xLabel + 100, yPos, 90, 30);
-        btnVoltar.addActionListener(e -> {
+        JButton botVoltar = new JButton("Voltar");
+        botVoltar.setBounds(xLabel + 100, yPos, 90, 30);
+        botVoltar.addActionListener(e -> {
             NavegacaoAcao navegacaoAcao = new NavegacaoAcao();
             navegacaoAcao.setVisible(true);
-            frame.dispose();
+            tela.dispose(); // Fecha a Tela Buscar
         });
-        frame.getContentPane().add(btnVoltar);
+        tela.getContentPane().add(botVoltar);
 
-        JButton btnLimpar = new JButton("Limpar");
-        btnLimpar.setBounds(xLabel + 200, yPos, 100, 30);
-        btnLimpar.addActionListener(e -> {
+        JButton botLimpar = new JButton("Limpar");
+        botLimpar.setBounds(xLabel + 200, yPos, 100, 30);
+        botLimpar.addActionListener(e -> {
             textoId.setText("");
             textoNome.setText("");
             textoValor.setText("");
             textoDataValidade.setText("");
         });
-        frame.getContentPane().add(btnLimpar);
-        
-        btnBuscar.addActionListener(e -> {
+        tela.getContentPane().add(botLimpar);
+        // Adicionando a ação do botão
+        botBuscar.addActionListener(e -> {
             try {
                 int id = Integer.parseInt(textoId.getText());
+
+                // Tenta buscar a ação usando o mediador
                 Acao acao = mediatorAcao.buscar(id);
                 if (acao == null) {
                     JOptionPane.showMessageDialog(null, "Erro ao buscar ação");
