@@ -58,7 +58,7 @@ import java.time.LocalDate;
 public class MediatorEntidadeOperadora {
 
     private static MediatorEntidadeOperadora instancia;
-    private final RepositorioEntidadeOperadora repositorioEntidadeOperadora = new RepositorioEntidadeOperadora();
+    private RepositorioEntidadeOperadora repositorioEntidadeOperadora = new RepositorioEntidadeOperadora();
 
     private MediatorEntidadeOperadora() {
     }
