@@ -6,7 +6,7 @@ import javax.swing.SwingUtilities;
 import br.com.cesarschool.poo.titulos.TelaPrincipal;
 
 public class NavegacaoAcao {
-    private JFrame frame;
+    private JFrame tela; 
 
     private static final int LARGURA_JANELA = 450;
     private static final int ALTURA_JANELA = 450;
@@ -17,7 +17,7 @@ public class NavegacaoAcao {
         SwingUtilities.invokeLater(() -> {
             try {
                 NavegacaoAcao window = new NavegacaoAcao();
-                window.frame.setVisible(true);
+                window.tela.setVisible(true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -29,72 +29,69 @@ public class NavegacaoAcao {
     }
 
     public void setVisible(boolean visibilidade) {
-        frame.setVisible(visibilidade);
+        tela.setVisible(visibilidade);
     }
 
-   private void initialize(){
-        tela = new JFrame("Tela Inicial");
-        tela.setSize(450, 400);
+    private void initialize() {
+        tela = new JFrame("Navegação Ação");
+        tela.setSize(LARGURA_JANELA, ALTURA_JANELA);
         tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tela.setLayout(null);
-        tela.setLocationRelativeTo(null);  // Centraliza a janela na tela
+        tela.setLocationRelativeTo(null);
 
-        // botão de navegação ação
-        JButton botAcao = new JButton("Navegação Ação");
-        botAcao.setBounds(100, 30, 200, 30);
-        botAcao.addActionListener(e -> abrirNavegacaoAcao());
-        tela.getContentPane().add(botAcao);
+        JButton botIncluir = new JButton("Incluir");
+        botIncluir.setBounds(100, 30, LARGURA_BOTAO, ALTURA_BOTAO);
+        botIncluir.addActionListener(e -> abrirTelaIncluir());
+        tela.getContentPane().add(botIncluir);
 
-        // botão de título dívida
-        JButton botCadastro = new JButton("Navegação Título Dívida");
-        botCadastro.setBounds(100, 80, 200, 30);
-        botCadastro.addActionListener(e -> abrirNavegacaoTituloDivida());
-        tela.getContentPane().add(botCadastro);
+        JButton botAlterar = new JButton("Alterar");
+        botAlterar.setBounds(100, 80, LARGURA_BOTAO, ALTURA_BOTAO);
+        botAlterar.addActionListener(e -> abrirTelaAlterarAcao());
+        tela.getContentPane().add(botAlterar);
 
-        JButton botEntidade = new JButton("Navegação Entidade Operadora");
-        botEntidade.setBounds(100, 130, 200, 30);
-        botEntidade.addActionListener(e -> abrirEntidadeOperadora());
-        tela.getContentPane().add(botEntidade);
+        JButton botBuscar = new JButton("Buscar"); 
+        botBuscar.setBounds(100, 130, LARGURA_BOTAO, ALTURA_BOTAO);
+        botBuscar.addActionListener(e -> abrirTelaBuscarAcao());
+        tela.getContentPane().add(botBuscar);
+        
+        JButton botExcluir = new JButton("Excluir");
+        botExcluir.setBounds(100, 180, LARGURA_BOTAO, ALTURA_BOTAO);
+        botExcluir.addActionListener(e -> abrirTelaExcluirAcao());
+        tela.getContentPane().add(botExcluir);
 
-        JButton botOperacao = new JButton("Navegação Operação");
-        botOperacao.setBounds(100, 180, 200, 30);
-        botOperacao.addActionListener(e -> abrirOperacao());
-        tela.getContentPane().add(botOperacao);
-     
-        JButton botSair = new JButton("Sair");
-        botSair.setBounds(100, 230, 200, 30);
-        botSair.addActionListener(e -> System.exit(0));
-        tela.getContentPane().add(botSair);
+        JButton botVoltar = new JButton("Voltar");
+        botVoltar.setBounds(150, 230, 100, ALTURA_BOTAO);
+        botVoltar.addActionListener(e -> voltarTelaPrincipal());
+        tela.getContentPane().add(botVoltar);
     }
-
 
     private void abrirTelaAlterarAcao() {
         TelaAlterarAcao telaAlterarAcao = new TelaAlterarAcao();
         telaAlterarAcao.setVisible(true);
-        frame.dispose(); // Fecha NavegacaoAcao
+        tela.dispose();
     }
 
     private void abrirTelaIncluir() {
         TelaIncluirAcao telaIncluirAcao = new TelaIncluirAcao();
         telaIncluirAcao.setVisible(true);
-        frame.dispose(); // Fecha NavegacaoAcao
+        tela.dispose();
     }
 
     private void abrirTelaBuscarAcao() {
         TelaBuscarAcao telaBuscarAcao = new TelaBuscarAcao();
         telaBuscarAcao.setVisible(true);
-        frame.dispose(); // Fecha NavegacaoAcao
+        tela.dispose();
     }
 
     private void abrirTelaExcluirAcao() {
         TelaExcluirAcao telaExcluirAcao = new TelaExcluirAcao();
         telaExcluirAcao.setVisible(true);
-        frame.dispose(); // Fecha NavegacaoAcao
+        tela.dispose();
     }
 
     private void voltarTelaPrincipal() {
         TelaPrincipal telaPrincipal = new TelaPrincipal();
         telaPrincipal.setVisible(true);
-        frame.dispose(); // Fecha NavegacaoAcao e volta para TelaPrincipal
+        tela.dispose();
     }
 }
