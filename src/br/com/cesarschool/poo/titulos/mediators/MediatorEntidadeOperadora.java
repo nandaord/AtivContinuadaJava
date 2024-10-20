@@ -93,8 +93,11 @@ public class MediatorEntidadeOperadora {
         if (validacao != null) {
             return validacao;
         }
-        boolean sucesso = repositorioEntidadeOperadora.incluir(entidade);
-        return sucesso ? null : "Entidade já existente";
+        if (repositorioEntidadeOperadora.incluir(entidade)) {
+            return null;
+        } else {
+            return "Entidade já existente.";
+        }
     }
 
     public String alterar(EntidadeOperadora entidade) {
