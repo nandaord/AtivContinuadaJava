@@ -21,7 +21,7 @@ public class TelaIncluirEntidadeOperadora {
     private JTextField textoSaldoAcao;
     private JTextField textoSaldoTituloDivida;
     private JButton botIncluir; 
-    private MediatorEntidadeOperadora mediatorEntidadeOperadora = MediatorEntidadeOperadora.getInstancia();
+    private MediatorEntidadeOperadora mediatorEntidadeOperadora = MediatorEntidadeOperadora.getInstance();
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -139,7 +139,7 @@ public class TelaIncluirEntidadeOperadora {
                 double saldoTituloDivida = Double.parseDouble(textoSaldoTituloDivida.getText());
                 double saldoAcao = Double.parseDouble(textoSaldoAcao.getText());
                 
-                EntidadeOperadora entidadeOperadora = new EntidadeOperadora(id, nome, autorizadoAcao, saldoTituloDivida, saldoAcao);
+                EntidadeOperadora entidadeOperadora = new EntidadeOperadora(id, nome, autorizadoAcao);
                 String msg = mediatorEntidadeOperadora.incluir(entidadeOperadora);
                 if (msg == null) {
                     JOptionPane.showMessageDialog(null, "Entidade Operadora incluída com sucesso");

@@ -1,39 +1,15 @@
 package br.com.cesarschool.poo.titulos.repositorios;
 
-import br.com.cesarschool.poo.titulos.entidades.EntidadeOperadora;
+import br.com.cesarschool.poo.titulos.entidades.*;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * Deve gravar em e ler de um arquivo texto chamado EntidadeOperadora.txt os dados dos objetos do tipo
- * EntidadeOperadora. Seguem abaixo exemplos de linhas:
- *
-    1;PETROBRAS;true;1000.0;500.0
-    2;BANCO DO BRASIL;false;1500.0;800.0
- *
- * A inclusão deve adicionar uma nova linha ao arquivo. Não é permitido incluir
- * identificador repetido. Neste caso, o método deve retornar false. Inclusão com
- * sucesso, retorno true.
- *
- * A alteração deve substituir a linha atual por uma nova linha. A linha deve ser
- * localizada por identificador que, quando não encontrado, enseja retorno false.
- * Alteração com sucesso, retorno true.
- *
- * A exclusão deve apagar a linha atual do arquivo. A linha deve ser
- * localizada por identificador que, quando não encontrado, enseja retorno false.
- * Exclusão com sucesso, retorno true.
- *
- * A busca deve localizar uma linha por identificador, materializar e retornar um
- * objeto. Caso o identificador não seja encontrado no arquivo, retornar null.
- */
-
 public class RepositorioEntidadeOperadora {
     
     private static final String FILE_NAME = "EntidadeOperadora.txt";
 
-    // Método para incluir uma nova EntidadeOperadora
     public boolean incluir(EntidadeOperadora entidadeOperadora) {
         if (procurarId(entidadeOperadora.getIdentificador())) {
             return false; // Identificador já existe
@@ -41,7 +17,7 @@ public class RepositorioEntidadeOperadora {
 
         try (BufferedWriter escritor = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
             String linha = entidadeOperadora.getIdentificador() + ";" + entidadeOperadora.getNome() + ";" +
-                    entidadeOperadora.getAutorizacaoAcao() + ";" + entidadeOperadora.getSaldoAcao() + ";" +
+                    entidadeOperadora.getAutorizadoAcao() + ";" + entidadeOperadora.getSaldoAcao() + ";" +
                     entidadeOperadora.getSaldoTituloDivida();
             escritor.write(linha);
             escritor.newLine();
@@ -52,7 +28,6 @@ public class RepositorioEntidadeOperadora {
         return false;
     }
 
-    // Método para alterar uma EntidadeOperadora existente
     public boolean alterar(EntidadeOperadora entidadeOperadora) {
         List<String> linhas = lerLinhas();
         boolean alterado = false;
@@ -62,7 +37,7 @@ public class RepositorioEntidadeOperadora {
             if (Long.parseLong(divisao[0]) == entidadeOperadora.getIdentificador()) {
                 // Substitui a linha correspondente
                 String novaLinha = entidadeOperadora.getIdentificador() + ";" + entidadeOperadora.getNome() + ";" +
-                        entidadeOperadora.getAutorizacaoAcao() + ";" + entidadeOperadora.getSaldoAcao() + ";" +
+                        entidadeOperadora.getAutorizadoAcao() + ";" + entidadeOperadora.getSaldoAcao() + ";" +
                         entidadeOperadora.getSaldoTituloDivida();
                 linhas.set(i, novaLinha);
                 alterado = true;
@@ -76,7 +51,6 @@ public class RepositorioEntidadeOperadora {
         return false;
     }
 
-    // Método para excluir uma EntidadeOperadora pelo identificador
     public boolean excluir(long identificador) {
         List<String> linhas = lerLinhas();
         boolean deletado = false;
@@ -96,7 +70,6 @@ public class RepositorioEntidadeOperadora {
         return false;
     }
 
-    // Método para buscar uma EntidadeOperadora pelo identificador
     public EntidadeOperadora buscar(long identificador) {
         List<String> linhas = lerLinhas();
 
@@ -106,21 +79,17 @@ public class RepositorioEntidadeOperadora {
                 return new EntidadeOperadora(
                         Long.parseLong(divisao[0]),
                         divisao[1],
-                        Boolean.parseBoolean(divisao[2]),
-                        Double.parseDouble(divisao[3]),
-                        Double.parseDouble(divisao[4])
+                        Boolean.parseBoolean(divisao[2])
                 );
             }
         }
         return null;
     }
 
-    // Método auxiliar para procurar um identificador no arquivo
     private boolean procurarId(long identificador) {
         return buscar(identificador) != null;
     }
 
-    // Método auxiliar para ler todas as linhas do arquivo
     private List<String> lerLinhas() {
         List<String> linhas = new ArrayList<>();
         try (BufferedReader leitor = new BufferedReader(new FileReader(FILE_NAME))) {
@@ -134,7 +103,6 @@ public class RepositorioEntidadeOperadora {
         return linhas;
     }
 
-    // Método auxiliar para gravar todas as linhas no arquivo
     private boolean gravarLinhas(List<String> linhas) {
         try (BufferedWriter escritor = new BufferedWriter(new FileWriter(FILE_NAME))) {
             for (String linha : linhas) {
@@ -147,4 +115,26 @@ public class RepositorioEntidadeOperadora {
             return false;
         }
     }
+    public List<EntidadeOperadora> listar() {
+        List<EntidadeOperadora> entidades = new ArrayList<>();
+        List<String> linhas = lerLinhas(); // Usando o método já existente para ler as linhas do arquivo
+
+        for (String linha : linhas) {
+            String[] partes = linha.split(";");
+
+
+            if (partes.length == 5) {
+                long id = Long.parseLong(partes[0]);
+                String nome = partes[1];
+                boolean autorizadoAcao = Boolean.parseBoolean(partes[2]);
+                double saldoAcao = Double.parseDouble(partes[3]);
+                double saldoTituloDivida = Double.parseDouble(partes[4]);
+
+                EntidadeOperadora entidade = new EntidadeOperadora(id, nome, autorizadoAcao);
+                entidades.add(entidade);
+            }
+        }
+        return entidades;
+    }
+
 }

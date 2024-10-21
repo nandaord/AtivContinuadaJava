@@ -34,4 +34,8 @@ public class Acao extends Ativo {
         return montante*valorUnitario;
     }
 
+    public String toString() {
+        return "Valor Unitário: R$" + valorUnitario;
+    }
+
 }

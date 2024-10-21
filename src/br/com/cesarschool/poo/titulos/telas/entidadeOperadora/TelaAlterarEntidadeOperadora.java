@@ -21,7 +21,7 @@ public class TelaAlterarEntidadeOperadora {
     private JTextField textoSaldoAcao;
     private JTextField textoSaldoTituloDivida;
     private JButton botAlterar;
-    private MediatorEntidadeOperadora mediatorEntidadeOperadora = MediatorEntidadeOperadora.getInstancia();
+    private MediatorEntidadeOperadora mediatorEntidadeOperadora = MediatorEntidadeOperadora.getInstance();
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -143,7 +143,7 @@ public class TelaAlterarEntidadeOperadora {
                 double saldoAcao = Double.parseDouble(textoSaldoAcao.getText());
                 
                 // Cria o objeto EntidadeOperadora aqui
-                EntidadeOperadora entidadeOperadora = new EntidadeOperadora(id, nome, autorizadoAcao, saldoTituloDivida, saldoAcao);
+                EntidadeOperadora entidadeOperadora = new EntidadeOperadora(id, nome, autorizadoAcao);
 
                 String msg = mediatorEntidadeOperadora.alterar(entidadeOperadora);
                 if (msg == null) {

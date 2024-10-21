@@ -16,7 +16,7 @@ public class TelaExcluirAcao {
     private JFrame tela;
     private JTextField textoId;
     private JButton botExcluir;
-    private MediatorAcao mediatorAcao = MediatorAcao.getInstancia();
+    private MediatorAcao mediatorAcao = MediatorAcao.getInstance();
 
     public void setVisible(boolean b) {
         tela.setVisible(b);

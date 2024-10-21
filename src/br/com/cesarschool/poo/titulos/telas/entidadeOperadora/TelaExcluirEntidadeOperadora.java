@@ -16,7 +16,7 @@ public class TelaExcluirEntidadeOperadora {
     private JFrame tela;
     private JTextField textoId;
     private JButton botExcluir; 
-    private MediatorEntidadeOperadora mediatorEntidadeOperadora = MediatorEntidadeOperadora.getInstancia();
+    private MediatorEntidadeOperadora mediatorEntidadeOperadora = MediatorEntidadeOperadora.getInstance();
     
     private static final int ESPACO_VERTICAL = 36;
     private static final int LARGURA_TEXTFIELD = 122;

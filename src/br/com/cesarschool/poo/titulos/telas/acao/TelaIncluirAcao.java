@@ -22,7 +22,7 @@ public class TelaIncluirAcao {
     private JTextField textoValor;
     private JTextField textoDataValidade;
     private JButton botIncluir;   
-    private MediatorAcao mediatorAcao = MediatorAcao.getInstancia();
+    private MediatorAcao mediatorAcao = MediatorAcao.getInstance();
 
     public void setVisible(boolean b) {
         tela.setVisible(b);

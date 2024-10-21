@@ -83,4 +83,8 @@ public class EntidadeOperadora {
         saldoTituloDivida -= valor;
     }
 
+    public String toString() {
+        return identificador +": " + nome + " - R$" + saldoAcao + " - R$" + saldoTituloDivida;
+    }
+
 }

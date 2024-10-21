@@ -81,10 +81,7 @@ public class MediatorEntidadeOperadora {
         if (entidade.getNome().length() < 10 || entidade.getNome().length() > 100) {
             return "Nome deve ter entre 10 e 100 caracteres";
         }
-        LocalDate dataValidade = LocalDate.now().plusDays(180);
-        if (!entidade.getAutorizadoAcao()) {
-            return "Valor autorizado de ação deve ser maior que zero";
-        }
+
         return null;
     }
 

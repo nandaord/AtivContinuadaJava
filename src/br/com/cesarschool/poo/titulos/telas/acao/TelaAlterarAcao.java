@@ -21,7 +21,7 @@ public class TelaAlterarAcao {
     private JTextField txtValor;
     private JTextField txtDataValidade;
     private JButton botAlterar;
-    private MediatorAcao mediatorAcao = MediatorAcao.getInstancia();
+    private MediatorAcao mediatorAcao = MediatorAcao.getInstance();
 
     private static final int LARGURA_JANELA = 500;
     private static final int ALTURA_JANELA = 450;

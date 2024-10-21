@@ -4,7 +4,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import br.com.cesarschool.poo.titulos.MainApplicationScreen;
+import br.com.cesarschool.poo.titulos.TelaPrincipal;
 
 public class NavegacaoEntidadeOperadora {
     
@@ -67,7 +67,7 @@ public class NavegacaoEntidadeOperadora {
         JButton botVoltar = new JButton("Voltar");
         botVoltar.setBounds(150, 230, 100, ALTURA_BOTAO);
         botVoltar.addActionListener(e -> {
-            MainApplicationScreen telaInicio = new MainApplicationScreen();
+            TelaPrincipal telaInicio = new TelaPrincipal();
             telaInicio.setVisible(true);
             tela.dispose(); // Fecha a tela atual
         });

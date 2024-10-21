@@ -76,7 +76,7 @@ public class MediatorTituloDivida {
         String nome = titulo.getNome();
         long diasDiferenca = ChronoUnit.DAYS.between(LocalDate.now(), titulo.getDataDeValidade());
 
-        if (titulo.getIdentificador() <= 0 || titulo.getIdentificador() > 10000) {
+        if (titulo.getIdentificador() <= 0 || titulo.getIdentificador() >= 100000) {
             return "Identificador deve estar entre 1 e 99999.";
         }
         if (nome == null) {

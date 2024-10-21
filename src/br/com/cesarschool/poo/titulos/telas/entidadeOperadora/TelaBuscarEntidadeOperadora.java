@@ -1,28 +1,18 @@
 package br.com.cesarschool.poo.titulos.telas.entidadeOperadora;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import java.util.logging.Logger;
-
 import java.util.logging.Level;
 
 import br.com.cesarschool.poo.titulos.entidades.EntidadeOperadora;
 import br.com.cesarschool.poo.titulos.mediators.MediatorEntidadeOperadora;
 
-public class TelaBuscarEntidadeOperadora {
-    private JFrame tela; 
-    private JTextField textoId;
-    private JTextField textoNome;
-    private JTextField textoAutorizacaoAcao;
-    private JTextField textoSaldoAcao;
-    private JTextField textoSaldoTituloDivida;
-    private JButton botBuscar; 
+public class TelaBuscarEntidadeOperadora{
 
-    private MediatorEntidadeOperadora mediatorEntidadeOperadora = MediatorEntidadeOperadora.getInstancia();
+    private JFrame tela;
+    private JTextField textoId, textoNome, textoAutorizadoAcao, textoSaldoAcao, textoSaldoTituloDivida;
+    private JButton botaoBuscar;
+    private MediatorEntidadeOperadora mediatorEntidadeOperadora = MediatorEntidadeOperadora.getInstance();
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -36,102 +26,121 @@ public class TelaBuscarEntidadeOperadora {
     }
 
     public TelaBuscarEntidadeOperadora() {
-        initialize();
+        inicializar();
     }
 
     public void setVisible(boolean visibilidade) {
-        tela.setVisible(visibilidade); 
+        tela.setVisible(visibilidade);
     }
 
-    private void criarTela() { 
+    private void inicializar() {
+        criarFrame();
+        criarComponentes();
+        criarBotoes();
+    }
+
+    private void criarFrame() {
         tela = new JFrame("Buscar Entidade Operadora");
         tela.setBounds(100, 100, 556, 370);
         tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tela.getContentPane().setLayout(null);
     }
 
-    private void initialize() {
-        criarTela();
+    private void criarComponentes() {
+        int yPos = 40;
 
-        int yPos = 40; // Posição inicial y
-        int xLabel = 41; // Posição x para Labels
-        int xTextField = 183; // Posição x para TextFields
-        int espacoY = 36; // Espaçamento vertical
-        int alturaLabel = 20; // Altura para Labels
-        int alturaTextField = 26; // Altura para TextFields
+        textoId = adicionarComponente("ID atual", yPos);
+        yPos += 36;
+        textoNome = adicionarComponente("Nome", yPos);
+        desabilitarCampo(textoNome);
+        yPos += 36;
 
-        // COMPONENTE 1
-        JLabel labelId = new JLabel("ID");
-        labelId.setBounds(xLabel, yPos, 121, alturaLabel);
-        tela.getContentPane().add(labelId); 
-        
-        textoId = new JTextField();
-        textoId.setBounds(xTextField, yPos, 78, alturaTextField);
-        tela.getContentPane().add(textoId);
-        yPos += espacoY;
+        textoAutorizadoAcao = adicionarComponente("Autorizado Ação", yPos);
+        desabilitarCampo(textoAutorizadoAcao);
+        yPos += 36;
+        textoSaldoAcao = adicionarComponente("Saldo Ação", yPos);
+        desabilitarCampo(textoSaldoAcao);
+        yPos += 36;
 
-        // COMPONENTE 2
-        JLabel labelNome = new JLabel("Nome");
-        labelNome.setBounds(xLabel, yPos, 121, alturaLabel);
-        tela.getContentPane().add(labelNome);
-        
-        textoNome = new JTextField();
-        textoNome.setBounds(xTextField, yPos, 78, alturaTextField);
-        tela.getContentPane().add(textoNome); 
-        yPos += espacoY;
+        textoSaldoTituloDivida = adicionarComponente("Saldo Entidade Operadora", yPos);
+        desabilitarCampo(textoSaldoTituloDivida);
+        yPos += 36;
 
-        // COMPONENTE 3
-        JLabel labelAutorizacaoAcao = new JLabel("Autorização ação");
-        labelAutorizacaoAcao.setBounds(xLabel, yPos, 121, alturaLabel);
-        tela.getContentPane().add(labelAutorizacaoAcao);
-        
-        textoAutorizacaoAcao = new JTextField();
-        textoAutorizacaoAcao.setBounds(xTextField, yPos, 78, alturaTextField);
-        tela.getContentPane().add(textoAutorizacaoAcao);
-        yPos += espacoY;
-
-        // COMPONENTE 4
-        JLabel labelSaldoAcao = new JLabel("Saldo ação");
-        labelSaldoAcao.setBounds(xLabel, yPos, 121, alturaLabel);
-        tela.getContentPane().add(labelSaldoAcao); 
-        
-        textoSaldoAcao = new JTextField();
-        textoSaldoAcao.setBounds(xTextField, yPos, 78, alturaTextField);
-        tela.getContentPane().add(textoSaldoAcao); 
-        yPos += espacoY;
-
-        // COMPONENTE 5
-        JLabel labelSaldoTituloDivida = new JLabel("Saldo título dívida");
-        labelSaldoTituloDivida.setBounds(xLabel, yPos, 121, alturaLabel);
-        tela.getContentPane().add(labelSaldoTituloDivida); 
-        
-        textoSaldoTituloDivida = new JTextField();
-        textoSaldoTituloDivida.setBounds(xTextField, yPos, 78, alturaTextField);
-        tela.getContentPane().add(textoSaldoTituloDivida); 
-        yPos += espacoY;
-
-        // COMPONENTE 6
-        botBuscar = new JButton("Buscar");
-        botBuscar.setBounds(xLabel, yPos, 90, 30);
-        tela.getContentPane().add(botBuscar);
-
-        // Adicionando a ação do botão
-        botBuscar.addActionListener(e -> {
-            try {
-                int id = Integer.parseInt(textoId.getText());
-                EntidadeOperadora entidadeOperadora = mediatorEntidadeOperadora.buscar(id);
-                
-                if (entidadeOperadora != null) {
-                    textoNome.setText(entidadeOperadora.getNome());
-                    textoAutorizacaoAcao.setText(String.valueOf(entidadeOperadora.isAutorizadoAcao()));
-                    textoSaldoAcao.setText(String.valueOf(entidadeOperadora.getSaldoAcao()));
-                    textoSaldoTituloDivida.setText(String.valueOf(entidadeOperadora.getSaldoTituloDivida()));
-                } else {
-                    JOptionPane.showMessageDialog(null, "Entidade não encontrada");
-                }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Erro ao buscar: " + ex.getMessage());
-            }
-        });
     }
+
+    private JTextField adicionarComponente(String labelText, int yPos) {
+        int xLabel = 41, xTextField = 183;
+        JLabel label = new JLabel(labelText);
+        label.setBounds(xLabel, yPos, 121, 20);
+        tela.getContentPane().add(label);
+        JTextField textField = new JTextField();
+        textField.setBounds(xTextField, yPos, 122, 26);
+        tela.getContentPane().add(textField);
+        return textField;
+    }
+
+    private void desabilitarCampo(JTextField campo) {
+        campo.setEnabled(false);
+        campo.setEditable(false);
+    }
+
+    private void criarBotoes() {
+        int yPos = 220;
+
+        adicionarBotao("Buscar", yPos, e -> buscarTitulo(),50);
+        adicionarBotao("Voltar", yPos, e -> voltar(), 180);
+        adicionarBotao("Limpar", yPos, e -> limparCampos(), 310);
+    }
+
+    private void adicionarBotao(String titulo, int yPos, java.awt.event.ActionListener acao) {
+        adicionarBotao(titulo, yPos, acao, 90);
+    }
+
+    private void adicionarBotao(String titulo, int yPos, java.awt.event.ActionListener acao, int xOffset) {
+        int xLabel = 41;
+        JButton botao = new JButton(titulo);
+        botao.setBounds(xLabel + xOffset, yPos, 90, 30);
+        botao.addActionListener(acao);
+        tela.getContentPane().add(botao);
+    }
+
+    private void buscarTitulo() {
+        try {
+            int id = Integer.parseInt(textoId.getText());
+            EntidadeOperadora entidadeOperadora = mediatorEntidadeOperadora.buscar(id);
+            if (entidadeOperadora == null) {
+                JOptionPane.showMessageDialog(null, "Erro ao buscar entidade operadora");
+            } else {
+                preencherCampos(entidadeOperadora);
+                JOptionPane.showMessageDialog(null, "Entidade Operadora encontrada com sucesso!");
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Por favor, insira um ID válido.");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar entidade operadora: " + ex.getMessage());
+        }
+    }
+
+    private void preencherCampos(EntidadeOperadora entidadeOperadora) {
+        textoNome.setText(entidadeOperadora.getNome());
+        textoAutorizadoAcao.setText(Boolean.toString(entidadeOperadora.getAutorizadoAcao()));
+        textoSaldoAcao.setText(Double.toString(entidadeOperadora.getSaldoAcao()));
+        textoSaldoTituloDivida.setText(Double.toString(entidadeOperadora.getSaldoTituloDivida()));
+    }
+
+    private void voltar() {
+        NavegacaoEntidadeOperadora navegacaoEntidadeOperadora = new NavegacaoEntidadeOperadora();
+        navegacaoEntidadeOperadora.setVisible(true);
+        tela.dispose();
+    }
+
+    private void limparCampos() {
+        textoId.setText("");
+        textoNome.setText("");
+        textoAutorizadoAcao.setText("");
+        textoSaldoAcao.setText("");
+        textoSaldoTituloDivida.setText("");
+    }
+
+
 }

@@ -37,4 +37,8 @@ public class TituloDivida extends Ativo {
         return montante*(1 - taxaJuros/100.0);
     }
 
+    public String toString() {
+        return "Taxa Juros: " + taxaJuros + "%";
+    }
+
 }
