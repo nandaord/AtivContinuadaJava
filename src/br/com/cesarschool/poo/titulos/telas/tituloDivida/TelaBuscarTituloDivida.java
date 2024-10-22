@@ -48,6 +48,7 @@ public class TelaBuscarTituloDivida {
         tela.setBounds(100, 100, 556, 370);
         tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tela.getContentPane().setLayout(null);
+        tela.getContentPane().setBackground(new java.awt.Color(190, 190, 190));
     }
 
     private void criarComponentes() {
