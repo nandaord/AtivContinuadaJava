@@ -14,6 +14,18 @@ public class NavegacaoAcao {
     private static final int ALTURA_BOTAO = 30;
 
     public static void main(String[] args) {
+        try {
+            // Define o look and feel "Nimbus" ou um outro disponível no sistema
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Não foi possível definir o look and feel.");
+        }
+
         SwingUtilities.invokeLater(() -> {
             try {
                 NavegacaoAcao window = new NavegacaoAcao();
@@ -38,6 +50,8 @@ public class NavegacaoAcao {
         tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tela.setLayout(null);
         tela.setLocationRelativeTo(null);
+
+        tela.getContentPane().setBackground(new java.awt.Color(190, 190, 190));
 
         JButton botIncluir = new JButton("Incluir");
         botIncluir.setBounds(100, 30, LARGURA_BOTAO, ALTURA_BOTAO);
