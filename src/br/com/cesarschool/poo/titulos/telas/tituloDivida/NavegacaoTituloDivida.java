@@ -16,6 +16,16 @@ public class NavegacaoTituloDivida {
     private static final int ALTURA_BOTAO = 30;
 
     public static void main(String[] args){
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Não foi possível definir o look and feel.");
+        }
         SwingUtilities.invokeLater(() -> {
             try {
                 NavegacaoTituloDivida janela = new NavegacaoTituloDivida();
@@ -39,6 +49,7 @@ public class NavegacaoTituloDivida {
         tela.setSize(LARGURA_JANELA, ALTURA_JANELA);
         tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tela.setLayout(null);
+        tela.getContentPane().setBackground(new java.awt.Color(190, 190, 190));
 
         int posY = 30;
         int espacoBotao = 20;
