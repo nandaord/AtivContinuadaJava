@@ -138,8 +138,12 @@ public class TelaIncluirEntidadeOperadora {
 
                 double saldoTituloDivida = Double.parseDouble(textoSaldoTituloDivida.getText());
                 double saldoAcao = Double.parseDouble(textoSaldoAcao.getText());
-                
+
                 EntidadeOperadora entidadeOperadora = new EntidadeOperadora(id, nome, autorizadoAcao);
+
+                entidadeOperadora.ajustarSaldoAcao(saldoAcao);
+                entidadeOperadora.ajustarSaldoTituloDivida(saldoTituloDivida);
+
                 String msg = mediatorEntidadeOperadora.incluir(entidadeOperadora);
                 if (msg == null) {
                     JOptionPane.showMessageDialog(null, "Entidade Operadora incluída com sucesso");
