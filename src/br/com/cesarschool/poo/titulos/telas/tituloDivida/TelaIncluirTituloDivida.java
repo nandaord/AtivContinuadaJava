@@ -15,6 +15,16 @@ public class TelaIncluirTituloDivida {
     private MediatorTituloDivida mediatorAcao = MediatorTituloDivida.getInstance();
 
     public static void main(String[] args) {
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Não foi possível definir o look and feel.");
+        }
         SwingUtilities.invokeLater(() -> {
             try {
                 TelaIncluirTituloDivida window = new TelaIncluirTituloDivida();
@@ -38,6 +48,7 @@ public class TelaIncluirTituloDivida {
         tela.setBounds(100, 100, 556, 370);
         tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tela.getContentPane().setLayout(null);
+        tela.getContentPane().setBackground(new java.awt.Color(190, 190, 190));
     }
 
     private void inicializar() {
