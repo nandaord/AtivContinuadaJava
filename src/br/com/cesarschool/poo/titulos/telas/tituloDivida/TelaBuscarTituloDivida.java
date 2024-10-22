@@ -19,6 +19,16 @@ public class TelaBuscarTituloDivida {
     private MediatorTituloDivida mediatorTituloDivida = MediatorTituloDivida.getInstance();
 
     public static void main(String[] args) {
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Não foi possível definir o look and feel.");
+        }
         SwingUtilities.invokeLater(() -> {
             try {
                 TelaBuscarTituloDivida window = new TelaBuscarTituloDivida();
