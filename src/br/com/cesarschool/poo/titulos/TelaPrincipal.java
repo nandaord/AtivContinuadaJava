@@ -11,6 +11,17 @@ public class TelaPrincipal {
     private JFrame tela;
 
     public static void main(String[] args) {
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Não foi possível definir o look and feel.");
+        }
+        
         SwingUtilities.invokeLater(() -> {
             try {
                 TelaPrincipal janela = new TelaPrincipal();
@@ -35,6 +46,8 @@ public class TelaPrincipal {
         tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tela.setLayout(null);
         tela.setLocationRelativeTo(null);  // Centraliza a janela na tela
+
+        tela.getContentPane().setBackground(new java.awt.Color(190, 190, 190));
 
         int buttonWidth = 200; // Largura do botão
         int buttonHeight = 30; // Altura do botão
