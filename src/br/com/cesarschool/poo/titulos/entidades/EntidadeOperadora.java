@@ -87,4 +87,14 @@ public class EntidadeOperadora {
         return identificador +": " + nome + " - R$" + saldoAcao + " - R$" + saldoTituloDivida;
     }
 
+    
+    public void ajustarSaldoAcao(double saldoAcao) {
+        this.saldoAcao = saldoAcao;
+    }
+
+    public void ajustarSaldoTituloDivida(double saldoTituloDivida) {
+        this.saldoTituloDivida = saldoTituloDivida;
+    }
 }
+
+
