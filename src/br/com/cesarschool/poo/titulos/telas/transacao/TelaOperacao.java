@@ -28,6 +28,16 @@ public class TelaOperacao {
     private MediatorOperacao mediatorOperacao = MediatorOperacao.getInstancia();
 
     public static void main(String[] args) {
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Não foi possível definir o look and feel.");
+        }
         SwingUtilities.invokeLater(() -> {
             try {
                 TelaOperacao window = new TelaOperacao();
@@ -184,7 +194,8 @@ public class TelaOperacao {
         frame.setSize(600, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
-        frame.setLocationRelativeTo(null);  // Centraliza a janela na tela
+        frame.setLocationRelativeTo(null);
+        tela.getContentPane().setBackground(new java.awt.Color(190, 190, 190));
     }
 
     // Método para carregar entidades operadoras
