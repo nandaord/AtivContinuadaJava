@@ -3,12 +3,7 @@ package br.com.cesarschool.poo.titulos.telas.entidadeOperadora;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import br.com.cesarschool.poo.titulos.mediators.MediatorEntidadeOperadora;
 

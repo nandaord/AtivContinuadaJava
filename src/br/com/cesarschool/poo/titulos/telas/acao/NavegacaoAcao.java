@@ -1,8 +1,7 @@
 package br.com.cesarschool.poo.titulos.telas.acao;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
+
 import br.com.cesarschool.poo.titulos.TelaPrincipal;
 
 public class NavegacaoAcao {

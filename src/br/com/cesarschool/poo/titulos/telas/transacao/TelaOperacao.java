@@ -195,7 +195,7 @@ public class TelaOperacao {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.setLocationRelativeTo(null);
-        tela.getContentPane().setBackground(new java.awt.Color(190, 190, 190));
+        frame.getContentPane().setBackground(new java.awt.Color(190, 190, 190));
     }
 
     // Método para carregar entidades operadoras

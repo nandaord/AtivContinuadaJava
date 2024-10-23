@@ -1,11 +1,6 @@
 package br.com.cesarschool.poo.titulos.telas.tituloDivida;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import java.util.logging.Logger;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
