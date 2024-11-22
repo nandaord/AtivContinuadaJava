@@ -3,6 +3,8 @@ package br.gov.cesarschool.poo.daogenerico;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+
 /*
  * Esta classe representa um DAO genérico, que inclui, exclui, altera, busca por identificador
  * único e busca todos, qualquer objeto(s) cujo tipo é subtipo de Entidade.
@@ -16,6 +18,7 @@ import java.nio.file.Paths;
  * A classe deve ter a estrutura (métodos e construtores) dada abaixo.
  */
 
+
 public class DAOSerializadorObjetos {
     private final String nomeDiretorio;
 
@@ -28,6 +31,10 @@ public class DAOSerializadorObjetos {
     }
 
     public boolean incluir(Entidade entidade) {
+        // Define dataHoraInclusao e dataHoraUltimaAlteracao
+        entidade.setDataHoraInclusao(LocalDateTime.now());
+        entidade.setDataHoraUltimaAlteracao(LocalDateTime.now());
+        
         String caminhoArquivo = obterCaminhoArquivo(entidade.getIdUnico());
         File arquivo = new File(caminhoArquivo);
         if (arquivo.exists()) {
@@ -42,6 +49,8 @@ public class DAOSerializadorObjetos {
     }
 
     public boolean alterar(Entidade entidade) {
+        entidade.setDataHoraUltimaAlteracao(LocalDateTime.now());
+        
         String caminhoArquivo = obterCaminhoArquivo(entidade.getIdUnico());
         File arquivo = new File(caminhoArquivo);
         if (!arquivo.exists()) {
@@ -95,3 +104,5 @@ public class DAOSerializadorObjetos {
         return nomeDiretorio + File.separator + idUnico;
     }
 }
+
+        
