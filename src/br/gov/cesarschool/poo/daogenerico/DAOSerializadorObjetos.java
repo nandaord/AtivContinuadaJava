@@ -1,4 +1,9 @@
 package br.gov.cesarschool.poo.daogenerico;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * Esta classe representa um DAO genérico, que inclui, exclui, altera, busca por identificador
  * único e busca todos, qualquer objeto(s) cujo tipo é subtipo de Entidade.
@@ -13,6 +18,8 @@ package br.gov.cesarschool.poo.daogenerico;
  */
 public class DAOSerializadorObjetos {
     private String nomeDiretorio;
+    private Class<?> tipoEntidade;
+
     public DAOSerializadorObjetos(Class<?> tipoEntidade) {
     }
     public boolean incluir(Entidade entidade) {
