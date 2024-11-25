@@ -1,6 +1,5 @@
-package br.gov.cesarschool.poo.testes;
+package br.com.cesarschool.poo.titulos.testes;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
