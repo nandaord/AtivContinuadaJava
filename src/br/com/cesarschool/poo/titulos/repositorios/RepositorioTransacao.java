@@ -1,5 +1,6 @@
 package br.com.cesarschool.poo.titulos.repositorios;
 
+import br.com.cesarschool.poo.titulos.daogenerico.DAOSerializadorObjetos;
 import br.com.cesarschool.poo.titulos.entidades.Transacao;
 import br.com.cesarschool.poo.titulos.entidades.EntidadeOperadora;
 import br.com.cesarschool.poo.titulos.entidades.Acao;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.io.*;
 
-public class RepositorioTransacao {
+public class RepositorioTransacao implements RepositorioGeral {
     public void incluir(Transacao transacao) {
         File arquivo = new File("Transacao.txt");
 
@@ -182,4 +183,9 @@ public class RepositorioTransacao {
         }
         return transacoesEncontradas.toArray(new Transacao[0]);
     }
+
+    public DAOSerializadorObjetos getDao() {
+        return new DAOSerializadorObjetos(Transacao.class);
+    }
+
 }

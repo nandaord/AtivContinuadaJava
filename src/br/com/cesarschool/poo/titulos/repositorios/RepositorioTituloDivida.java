@@ -1,5 +1,6 @@
 package br.com.cesarschool.poo.titulos.repositorios;
 
+import br.com.cesarschool.poo.titulos.daogenerico.DAOSerializadorObjetos;
 import br.com.cesarschool.poo.titulos.entidades.Acao;
 import br.com.cesarschool.poo.titulos.entidades.TituloDivida;
 
@@ -11,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RepositorioTituloDivida {
+public class RepositorioTituloDivida implements RepositorioGeral{
 
     private static final String ARQUIVO_TITULOS = "TituloDivida.txt";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -152,5 +153,8 @@ public class RepositorioTituloDivida {
             e.printStackTrace();
         }
         return titulosDividas;
+    }
+    public DAOSerializadorObjetos getDao() {
+        return new DAOSerializadorObjetos(TituloDivida.class);
     }
 }

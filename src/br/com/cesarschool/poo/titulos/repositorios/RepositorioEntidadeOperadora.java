@@ -1,13 +1,14 @@
 package br.com.cesarschool.poo.titulos.repositorios;
 
+import br.com.cesarschool.poo.titulos.daogenerico.DAOSerializadorObjetos;
 import br.com.cesarschool.poo.titulos.entidades.*;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RepositorioEntidadeOperadora {
-    
+public class RepositorioEntidadeOperadora implements RepositorioGeral {
+
     private static final String FILE_NAME = "EntidadeOperadora.txt";
 
     public boolean incluir(EntidadeOperadora entidadeOperadora) {
@@ -135,6 +136,10 @@ public class RepositorioEntidadeOperadora {
             }
         }
         return entidades;
+    }
+
+    public DAOSerializadorObjetos getDao() {
+        return new DAOSerializadorObjetos(EntidadeOperadora.class);
     }
 
 }

@@ -1,25 +1,12 @@
 package br.com.cesarschool.poo.titulos.entidades;
+import br.com.cesarschool.poo.titulos.daogenerico.Entidade;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/*
- * Esta classe deve ter os seguintes atributos:
- * entidadeCredito, do tipo EntidadeOperadora
- * entidadeDebito, do tipo EntidadeOperadora
- * acao, do tipo Acao
- * tituloDivida, do tipo TituloDivida
- * valorOperacao, do tipo double
- * dataHoraOperacao, do tipo LocalDateTime
- *
- * Deve ter um construtor p�blico que inicializa os atributos.
- * Deve ter m�todos get/set p�blicos para todos os atributos, que
- * s�o read-only fora da classe.
- *
- *
- */
-public class Transacao {
+public class Transacao extends Entidade  {
 
     private EntidadeOperadora entidadeCredito;
     private EntidadeOperadora entidadeDebito;
@@ -84,4 +71,12 @@ public class Transacao {
     public void setDataHoraOperacao(LocalDateTime dataHoraOperacao) {
         this.dataHoraOperacao = dataHoraOperacao;
     }
+
+    @Override
+    public String getIdUnico() {
+        return entidadeCredito.getIdentificador() + "-" +
+                entidadeDebito.getIdentificador() + "-" +
+                dataHoraOperacao.toString().replaceAll("[:.]", "-");
+    }
+
 }
