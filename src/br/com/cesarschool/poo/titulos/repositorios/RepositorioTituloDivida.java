@@ -157,4 +157,10 @@ public class RepositorioTituloDivida implements RepositorioGeral{
     public DAOSerializadorObjetos getDao() {
         return new DAOSerializadorObjetos(TituloDivida.class);
     }
+
+    @Override
+    public Class<?> getClasseEntidade() {
+        return TituloDivida.class;
+    }
+
 }

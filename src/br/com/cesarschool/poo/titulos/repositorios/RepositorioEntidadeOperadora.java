@@ -142,4 +142,10 @@ public class RepositorioEntidadeOperadora implements RepositorioGeral {
         return new DAOSerializadorObjetos(EntidadeOperadora.class);
     }
 
+    @Override
+    public Class<?> getClasseEntidade() {
+        return EntidadeOperadora.class;
+    }
+
+
 }

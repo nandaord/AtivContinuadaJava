@@ -188,4 +188,10 @@ public class RepositorioTransacao implements RepositorioGeral {
         return new DAOSerializadorObjetos(Transacao.class);
     }
 
+    @Override
+    public Class<?> getClasseEntidade() {
+        return Transacao.class;
+    }
+
+
 }

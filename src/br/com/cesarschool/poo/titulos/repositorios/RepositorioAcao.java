@@ -7,13 +7,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.format.DateTimeFormatter;	
+import java.time.format.DateTimeFormatter;
 
 public class RepositorioAcao implements RepositorioGeral {
-	private static final String ARQUIVO_ACOES = "Acao.txt";
-	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final String ARQUIVO_ACOES = "Acao.txt";
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     private Path path;
 
@@ -30,6 +31,7 @@ public class RepositorioAcao implements RepositorioGeral {
             String linha = acao.getIdentificador() + ";" + acao.getNome() + ";" + acao.getDataDeValidade() + ";" + acao.getValorUnitario() + ";" + acao.getDataHoraInclusao();
             writer.write(linha);
             writer.newLine();
+            writer.flush();
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,9 +48,13 @@ public class RepositorioAcao implements RepositorioGeral {
             String linha;
             while ((linha = reader.readLine()) != null) {
                 String[] partes = linha.split(";");
+                if (partes.length != 5) {
+                    System.out.println("Linha mal formatada: " + linha);
+                    continue; // Ignorar linhas mal formatadas
+                }
                 int id = Integer.parseInt(partes[0]);
                 if (id == acao.getIdentificador()) {
-                    linha = acao.getIdentificador() + ";" + acao.getNome() + ";" + acao.getDataDeValidade() + ";" + acao.getValorUnitario();
+                    linha = acao.getIdentificador() + ";" + acao.getNome() + ";" + acao.getDataDeValidade() + ";" + acao.getValorUnitario() + ";" + acao.getDataHoraInclusao();
                     encontrado = true;
                 }
                 linhas.add(linha);
@@ -64,6 +70,7 @@ public class RepositorioAcao implements RepositorioGeral {
                     writer.write(linha);
                     writer.newLine();
                 }
+                writer.flush();
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -73,9 +80,8 @@ public class RepositorioAcao implements RepositorioGeral {
             return false;
         }
     }
-	
-	
-	public boolean excluir(int identificador) {
+
+    public boolean excluir(int identificador) {
         List<String> linhas = new ArrayList<>();
         boolean encontrado = false;
 
@@ -83,6 +89,10 @@ public class RepositorioAcao implements RepositorioGeral {
             String linha;
             while ((linha = reader.readLine()) != null) {
                 String[] partes = linha.split(";");
+                if (partes.length != 5) {
+                    System.out.println("Linha mal formatada: " + linha);
+                    continue; // Ignorar linhas mal formatadas
+                }
                 int id = Integer.parseInt(partes[0]);
                 if (id == identificador) {
                     encontrado = true; // Não adicionamos esta linha
@@ -101,6 +111,7 @@ public class RepositorioAcao implements RepositorioGeral {
                     writer.write(linha);
                     writer.newLine();
                 }
+                writer.flush();
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -116,16 +127,29 @@ public class RepositorioAcao implements RepositorioGeral {
             String linha;
             while ((linha = reader.readLine()) != null) {
                 String[] partes = linha.split(";");
+                if (partes.length != 5) {
+                    System.out.println("Linha mal formatada: " + linha);
+                    continue; // Ignorar linhas mal formatadas
+                }
                 int id = Integer.parseInt(partes[0]);
                 if (id == identificador) {
                     String nome = partes[1];
-                    LocalDate dataDeValidade = LocalDate.parse(partes[2]);
+                    LocalDate dataDeValidade = LocalDate.parse(partes[2], formatter);
                     double valorUnitario = Double.parseDouble(partes[3]);
-                    // Ler a dataHoraInclusao, que está na quarta posição no arquivo
-                    LocalDateTime dataHoraInclusao = LocalDateTime.parse(partes[4], DateTimeFormatter.ISO_DATE_TIME);
+                    LocalDateTime dataHoraInclusao = null;
+
+                    if (partes[4] != null && !partes[4].isEmpty()) {
+                        try {
+                            dataHoraInclusao = LocalDateTime.parse(partes[4], DateTimeFormatter.ISO_DATE_TIME);
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Erro ao parsear a data de inclusão: " + partes[4]);
+                        }
+                    }
 
                     Acao acao = new Acao(id, nome, dataDeValidade, valorUnitario);
-                    acao.setDataHoraInclusao(dataHoraInclusao); // Definindo o valor de dataHoraInclusao
+                    if (dataHoraInclusao != null) {
+                        acao.setDataHoraInclusao(dataHoraInclusao);
+                    }
                     return acao;
                 }
             }
@@ -138,26 +162,33 @@ public class RepositorioAcao implements RepositorioGeral {
 
     public List<Acao> listar() {
         List<Acao> acoes = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        try(BufferedReader reader = new BufferedReader(new FileReader(path.toFile()))){
+        try (BufferedReader reader = new BufferedReader(new FileReader(path.toFile()))) {
             String line;
-            while((line = reader.readLine()) != null){
+            while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
+                if (parts.length != 5) {
+                    System.out.println("Linha mal formatada: " + line);
+                    continue; // Ignorar linhas mal formatadas
+                }
                 int id = Integer.parseInt(parts[0]);
                 String nome = parts[1];
                 LocalDate dataValidade = LocalDate.parse(parts[2], formatter);
                 double valorUnitario = Double.parseDouble(parts[3]);
                 acoes.add(new Acao(id, nome, dataValidade, valorUnitario));
             }
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return acoes;
     }
+
     public DAOSerializadorObjetos getDao() {
         return new DAOSerializadorObjetos(Acao.class);
+    }
+
+    @Override
+    public Class<?> getClasseEntidade() {
+        return Acao.class;
     }
 
 }
